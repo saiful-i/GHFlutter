@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'string.dart' as strings;
 import 'dart:convert';
@@ -25,6 +27,23 @@ class GHFlutter extends StatefulWidget {
 }
 
 class _GHFlutterState extends State<GHFlutter> {
+  var _members = <dynamic>[];
+  final _biggerFont = const TextStyle(fontSize: 18.0);
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+
+  Future <void> _loadData() async {
+    const dataUrl = 'https://api.github.com/orgs/raywenderlich/members';
+    final response = await http.get(Uri.parse(dataUrl));
+    setState(() {
+      _members = json.decode(response.body) as List;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
