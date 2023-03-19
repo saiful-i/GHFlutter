@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'string.dart' as strings;
 import 'dart:convert';
@@ -36,8 +34,14 @@ class _GHFlutterState extends State<GHFlutter> {
     _loadData();
   }
 
+  Widget _buildRow(int i) {
+    return ListTile(
+      title: Text('${_members[i]['login']}', style: _biggerFont,),
+    );
+  }
+
   Future <void> _loadData() async {
-    const dataUrl = 'https://api.github.com/orgs/raywenderlich/members';
+    const dataUrl = 'https://api.github.com/orgs/kodecocodes/members';
     final response = await http.get(Uri.parse(dataUrl));
     setState(() {
       _members = json.decode(response.body) as List;
@@ -50,7 +54,13 @@ class _GHFlutterState extends State<GHFlutter> {
       appBar: AppBar(
         title: const Text(strings.appTitle),
       ),
-      body: const Text(strings.appTitle),
+      body: ListView.builder(
+        padding: const EdgeInsets.all(16.0),
+        itemCount: _members.length,
+        itemBuilder: (BuildContext context, int position) {
+          return _buildRow(position);
+        }
+      ),
     );
   }
 }
