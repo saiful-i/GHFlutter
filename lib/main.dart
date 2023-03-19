@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'string.dart' as strings;
 
 void main() => runApp(const GHFlutterApp());
 
@@ -11,10 +12,10 @@ class GHFlutterApp extends StatelessWidget {
       title: 'GHFlutter',
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('GHFlutter App'),
+          title: const Text(strings.appTitle),
         ),
         body: const Center(
-          child: Text('GHFlutter'),
+          child: Text(strings.appTitle),
         ),
         ),
     );
