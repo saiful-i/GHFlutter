@@ -25,7 +25,7 @@ class GHFlutter extends StatefulWidget {
 }
 
 class _GHFlutterState extends State<GHFlutter> {
-  var _members = <dynamic>[];
+  final _members = <Member>[];
   final _biggerFont = const TextStyle(fontSize: 18.0);
 
   @override
@@ -38,7 +38,7 @@ class _GHFlutterState extends State<GHFlutter> {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: ListTile(
-        title: Text('${_members[i]['login']}', style: _biggerFont,),
+        title: Text('${_members[i].login}', style: _biggerFont,),
         ),
       );
   }
@@ -47,7 +47,12 @@ class _GHFlutterState extends State<GHFlutter> {
     const dataUrl = 'https://api.github.com/orgs/kodecocodes/members';
     final response = await http.get(Uri.parse(dataUrl));
     setState(() {
-      _members = json.decode(response.body) as List;
+      final dataList = json.decode(response.body) as List;
+      for (final item in dataList) {
+        final login = item['login'] as String? ?? '';
+        final member = Member(login);
+        _members.add(member);
+      }
     });
   }
 
@@ -68,4 +73,9 @@ class _GHFlutterState extends State<GHFlutter> {
         )
     );
   }
+}
+
+class Member {
+  Member(this.login);
+  final String login;
 }
