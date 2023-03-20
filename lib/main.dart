@@ -35,9 +35,12 @@ class _GHFlutterState extends State<GHFlutter> {
   }
 
   Widget _buildRow(int i) {
-    return ListTile(
-      title: Text('${_members[i]['login']}', style: _biggerFont,),
-    );
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: ListTile(
+        title: Text('${_members[i]['login']}', style: _biggerFont,),
+        ),
+      );
   }
 
   Future <void> _loadData() async {
@@ -54,13 +57,15 @@ class _GHFlutterState extends State<GHFlutter> {
       appBar: AppBar(
         title: const Text(strings.appTitle),
       ),
-      body: ListView.builder(
-        padding: const EdgeInsets.all(16.0),
-        itemCount: _members.length,
+      body: ListView.separated(
         itemBuilder: (BuildContext context, int position) {
           return _buildRow(position);
-        }
-      ),
+        },
+        separatorBuilder: (context, index) {
+          return const Divider();
+        }, 
+        itemCount: _members.length
+        )
     );
   }
 }
