@@ -38,7 +38,11 @@ class _GHFlutterState extends State<GHFlutter> {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: ListTile(
-        title: Text('${_members[i].login}', style: _biggerFont,),
+        title: Text(_members[i].login, style: _biggerFont,),
+        leading: CircleAvatar(
+          backgroundColor: Colors.green,
+          backgroundImage: NetworkImage(_members[i].avatar_url),
+        ),
         ),
       );
   }
@@ -50,7 +54,8 @@ class _GHFlutterState extends State<GHFlutter> {
       final dataList = json.decode(response.body) as List;
       for (final item in dataList) {
         final login = item['login'] as String? ?? '';
-        final member = Member(login);
+        final avatar = item['avatar_url'] as String? ?? '';
+        final member = Member(login, avatar);
         _members.add(member);
       }
     });
@@ -76,6 +81,7 @@ class _GHFlutterState extends State<GHFlutter> {
 }
 
 class Member {
-  Member(this.login);
+  Member(this.login, this.avatar_url);
   final String login;
+  final String avatar_url
 }
